@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  mysql:
+    restart: always
+    container_name: "employees-mysql"
+    image: mysql:latest
+    ports: 
+      - 6066:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=mysql
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    volumes:
+      # creates a folder called "accounts-data" in the current directory that persistently mounts the data created in the container
+      - ./employees-data:/var/lib/mysql
+      # name of a SQL database schema file to create some tables in the containers database
+      - ./employees-schema.sql:/docker-entrypoint-initdb.d/schema.sql
+volumes:
+  # name of the mount folder above
+  employees-data:
